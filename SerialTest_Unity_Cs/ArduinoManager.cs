@@ -8,12 +8,13 @@ public class ArduinoManager : MonoBehaviour
     public static ArduinoManager Instance;
 
     [Header("Arduino設定")]
-    public string portName = "COM4"; // ※ポート番号を確認してください
+    public string portName = "COM3"; // ※ポート番号を確認してください
     public int baudRate = 9600;
 
     // 自機が受け取るための変数
     public int  currentPotValue = 512; // 初期値（真ん中）
     public bool currentShootState = false;   // 初期値（離している）
+    public bool currentCreditState = false;   //
 
     private SerialPort serialPort;
 
@@ -39,6 +40,10 @@ public class ArduinoManager : MonoBehaviour
         {
             serialPort = new SerialPort(portName, baudRate);
             serialPort.ReadTimeout = 20; // 読み込み待ち時間を短く
+
+            serialPort.DtrEnable = true;
+            serialPort.RtsEnable = true;
+
             serialPort.Open();
             Debug.Log("Serial Port Opened");
         }
@@ -52,19 +57,23 @@ public class ArduinoManager : MonoBehaviour
     {
         if (serialPort != null && serialPort.IsOpen)
         {
+
             try
             {
                 // データ読み取り
                 string data = serialPort.ReadLine();
+                Debug.Log(data);
 
                 if (data == "S") currentShootState = true;
+                else if (data == "T") currentCreditState = true;
                 else
                 {
                     currentPotValue = int.Parse(data);
                     currentShootState = false;
                 }
+                
             }
-            catch (TimeoutException) { } // データがない時は無視
+            catch (TimeoutException) { currentCreditState = false; } // データがない時は無視
             catch (Exception e)
             {
                 Debug.LogWarning("読み取りエラー: " + e.Message);

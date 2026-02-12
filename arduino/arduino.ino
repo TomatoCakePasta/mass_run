@@ -14,7 +14,7 @@ void setup() {
 void loop() {
   if (coinFlag) {
     coinFlag = false;
-    Serial.println(1);
+    Serial.println("T");
   }
 }
 
