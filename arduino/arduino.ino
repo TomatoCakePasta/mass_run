@@ -6,7 +6,7 @@ const int pinA = 2;
 const int pinB = 3;
 
 const int MAX = 1000;
-const int decremenmt = 25;
+const int decremenmt = 100;
 
 static const int encode_table[] =
 {0, -1, 1, 0,
@@ -18,7 +18,7 @@ volatile int value = 0;          // 0〜100用
 volatile long rawCount = 0;
 
 unsigned long lastMoveTime = 0;
-const unsigned long timeout = 300;  // 無操作で0に戻る時間(ms)
+const unsigned long timeout = 0;  // 無操作で0に戻る時間(ms)
 
 void setup()
 {
@@ -32,8 +32,14 @@ void setup()
   attachInterrupt(digitalPinToInterrupt(pinB), encode, CHANGE);
 }
 
+int cntTest = 0;
+
 void loop()
 {
+  // debug
+  // Serial.println(cntTest % 1000);
+  // cntTest += 10;
+
   if (digitalRead(coin) != HIGH) {
     coinFlag = false;
     Serial.println("T");
@@ -53,7 +59,7 @@ void loop()
     Serial.println(value);
   }
 
-  delay(100);
+  delay(300);
 }
 
 
