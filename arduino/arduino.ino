@@ -12,6 +12,10 @@ long lastCount = 0;
 int lastOutput = 0;
 int keepCnt = 3;
 
+// ==== DEBUG MODE ===
+bool DEBUG = false;
+int debugData[] = {0, 1, 2, 3, 2, 1};
+
 void setup() {
   Serial.begin(115200);
   pinMode(encoderPin, INPUT_PULLUP);
@@ -19,6 +23,15 @@ void setup() {
 }
 
 void loop() {
+
+  if (DEBUG) {
+    int size = sizeof(debugData) / sizeof(debugData[0]);
+    for (int i = 0; i < size; i++) {
+      Serial.println(debugData[i]);
+      delay(4000);
+    }
+    return;
+  }
 
   if (millis() - lastTime >= 1000) {
 
