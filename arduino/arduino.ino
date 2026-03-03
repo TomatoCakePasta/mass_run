@@ -74,15 +74,15 @@ void loop() {
     int ret = 0;
 
     // super dash
-    if (rotations > 30) {
+    if (rotations > 30 * 2) {
       ret = 3;
     }
     // dash
-    else if (rotations > 20) {
+    else if (rotations > 20 * 2) {
       ret = 2;
     }
     // walk
-    else if (rotations > 10) {
+    else if (rotations > 10 * 2) {
       ret = 1;
     }
     Serial.println(ret);
