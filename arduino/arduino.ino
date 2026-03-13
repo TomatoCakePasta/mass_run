@@ -11,6 +11,7 @@ long lastCount = 0;
 
 int lastOutput = 0;
 int keepCnt = 3;
+int sendMillis = 1000;
 
 // ==== DEBUG MODE ===
 bool DEBUG = false;
@@ -33,7 +34,7 @@ void loop() {
     return;
   }
 
-  if (millis() - lastTime >= 1000) {
+  if (millis() - lastTime >= sendMillis) {
 
     noInterrupts();
     long currentCount = totalCount;
@@ -44,51 +45,7 @@ void loop() {
 
     float rotations = (float)diff / PPR;
 
-    int output;
-
-    if (rotations >= baseN + (baseD * 2)) {
-      output = 3;
-    }
-    else if (rotations >= baseN + baseD) {
-      output = 1;
-    }
-    else {
-      output = 0;
-    }
-
-    // === Important ===
-    // If it jumps more than two steps, the previous value is retained.
-    if ((abs(output - lastOutput) >= 2) && (output < lastOutput) && keepCnt > 0) {
-      output = lastOutput;
-      keepCnt--;
-    }
-    else {
-      keepCnt = 3;
-    }
-
-    lastOutput = output;
-
-    // Serial.print("rot/s: ");
-    // Serial.println(rotations);
-
-    int ret = 0;
-
-    // super dash
-    if (rotations > 30 * 2) {
-      ret = 3;
-    }
-    // dash
-    else if (rotations > 20 * 2) {
-      ret = 2;
-    }
-    // walk
-    else if (rotations > 10 * 2) {
-      ret = 1;
-    }
-    Serial.println(ret);
-
-    // Serial.print("  output: ");
-    // Serial.println(output);
+    Serial.println(rotations);
 
     lastTime = millis();
   }

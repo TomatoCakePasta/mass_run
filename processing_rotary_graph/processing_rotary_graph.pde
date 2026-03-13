@@ -7,8 +7,8 @@ int portIdx = 2;
 int baud = 115200;
 
 float value = 0;     // ← float対応
-//float maxRPM = 200;  // 想定最大RPM（必要に応じて変更）
-float maxRPM = 5;
+float maxRPM = 200;  // 想定最大RPM（必要に応じて変更）
+//float maxRPM = 5;
 
 float[] graph;
 int graphWidth = 800;
